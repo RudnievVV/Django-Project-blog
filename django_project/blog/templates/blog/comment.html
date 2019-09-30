@@ -1,0 +1,18 @@
+<div class="comment">
+	<div>
+		<img class="rounded-circle article-img" src="{{ comment.author.profile.image.url }}">
+	    <a href="{% url 'user-posts' comment.author %}">{{ comment.author }}</a>
+	    <small class="text-muted">| {{ comment.date_posted|date:'H:i, F d, Y' }}</small>
+    </div>
+    <br><strong>{{ comment.title }}</strong>
+    <br>{{ comment.content }}
+    {% if user.is_authenticated %}
+    	<br><br><a class="btn btn-outline-info" href="{% url 'add-comment-to-comment' pk=post.pk comm=comment.id comm_sub=comment.id %}">Reply</a>
+    {% endif %}
+    {% if comment.children %}
+        <hr>
+        {% for comment in comment.children.all %}
+            {% include 'blog/comment.html' %}
+        {% endfor %}
+    {% endif %}
+</div>
