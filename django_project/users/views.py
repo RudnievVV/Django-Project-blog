@@ -6,6 +6,7 @@ import os
 from django_project.settings import MEDIA_ROOT
 
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from .models import Profile
 
 
 def register(request):
@@ -30,9 +31,11 @@ def profile(request):
         p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
         if u_form.is_valid() and p_form.is_valid():
             u_form.save()
-            if request.user.profile.image.url != '/media/default.jpg':
-                if request.user.profile.image.url != general_current_user_img:
-                    os.unlink(os.path.join(os.path.join(MEDIA_ROOT, request.user.profile.image.url.split('/')[-2]), os.path.basename(general_current_user_img)))
+            if general_current_user_img != '/media/default.jpg':
+                os.unlink(os.path.join(
+                    os.path.join(MEDIA_ROOT, request.user.profile.image.url.split('/')[-2]),
+                    os.path.basename(general_current_user_img))
+                )
             p_form.save()
             messages.success(request, f'Your account has been updated!')
             return redirect('profile')
@@ -47,3 +50,20 @@ def profile(request):
     }
 
     return render(request, 'users/profile.html', context)
+
+
+@login_required
+def reset_image(request):
+    general_current_user_img = User.objects.get(username=request.user.profile.user)
+    general_current_user_img = general_current_user_img.profile.image.url
+
+    user_image = Profile.objects.filter(user_id=request.user.id)[0]
+    if general_current_user_img != '/media/default.jpg':
+        os.unlink(os.path.join(
+            os.path.join(MEDIA_ROOT, request.user.profile.image.url.split('/')[-2]),
+            os.path.basename(general_current_user_img))
+        )
+    user_image.image = 'default.jpg'
+    user_image.save()
+    messages.success(request, f'Your account image has been updated!')
+    return redirect('profile')
