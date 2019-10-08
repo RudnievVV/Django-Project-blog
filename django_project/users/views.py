@@ -31,7 +31,7 @@ def profile(request):
         p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
         if u_form.is_valid() and p_form.is_valid():
             u_form.save()
-            if general_current_user_img != '/media/default.jpg':
+            if general_current_user_img != '/media/default.jpg' and general_current_user_img != request.user.profile.image.url:
                 os.unlink(os.path.join(
                     os.path.join(MEDIA_ROOT, request.user.profile.image.url.split('/')[-2]),
                     os.path.basename(general_current_user_img))
@@ -65,5 +65,4 @@ def reset_image(request):
         )
     user_image.image = 'default.jpg'
     user_image.save()
-    messages.success(request, f'Your account image has been updated!')
     return redirect('profile')
