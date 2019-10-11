@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
@@ -126,6 +127,7 @@ def remove_comment(request, pk, comm):
     comment = get_object_or_404(Comment, id=comm)
     if request.method == "POST":
         comment.delete()
+        messages.success(request, f'Your comment has been removed!')
         return redirect('post-detail', pk=post.pk)
     if request.user == comment.author:
         return render(request, 'blog/comment_confirm_delete.html', {'comment': comment})
