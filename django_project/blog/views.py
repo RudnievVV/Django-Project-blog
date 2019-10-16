@@ -11,8 +11,10 @@ from django.views.generic import (
     DeleteView
 )
 from django.views.generic.list import MultipleObjectMixin
+from rest_framework import viewsets
 from .models import Post, Comment
 from .forms import CommentForm, CommentToCommentForm
+from .serializers import PostSerializer
 
 
 def home(request):
@@ -82,6 +84,12 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == post.author:
             return True
         return False
+
+
+class PostViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Post.objects.all().order_by('-date_posted')
+    serializer_class = PostSerializer
+
 
 @login_required
 def add_comment_to_post(request, pk):
