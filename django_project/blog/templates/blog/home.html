@@ -1,5 +1,6 @@
 {% extends 'blog/base.html' %}
 {% block content %}
+	{% load mathfilters %}
 	{% for post in posts %}
 		<article class="media content-section">
 			<img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
@@ -10,6 +11,12 @@
 		    </div>
 		    <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
 		    <small class="text-muted">Comments: {{ post.comments.count }}</small>
+		    <br>
+		    {% if post.reviews.count %}
+		    	<small class="text-muted">Rating: {{ post.review_star|div:post.reviews.count|floatformat:2 }}</small>
+		    {% else %}
+		    	<small class="text-muted">No rating yet!</small>
+		    {% endif %}
 		    <p class="article-content">{{ post.content }}</p>
 		  </div>
 		</article>

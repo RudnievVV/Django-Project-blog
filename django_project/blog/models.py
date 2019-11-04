@@ -9,13 +9,13 @@ class Post(models.Model):
     content = models.TextField()
     date_posted = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+    review_star = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
         return reverse('post-detail', kwargs={'pk': self.pk})
-
 
 
 class Comment(models.Model):
@@ -29,3 +29,12 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.content
+
+
+class Review(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='reviews')
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    review_star = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.review_star} for {self.post.id} by {self.author}"

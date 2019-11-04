@@ -10,3 +10,11 @@ jQuery('document').ready(function(){
 	});
 
 });
+
+$(document).ready(function(){
+             $("#starGet").click(function () {
+             window.location.replace(
+                   window.location.pathname + $("input:radio[name=rating]:checked").val() + "/rate"
+                );
+            });
+         });

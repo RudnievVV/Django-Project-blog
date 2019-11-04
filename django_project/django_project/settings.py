@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'mathfilters',
     'rest_framework',
     'users.apps.UsersConfig',
     'crispy_forms',
@@ -135,5 +136,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-#EMAIL_HOST_USER = # Uncomment and Enter email address
-#EMAIL_HOST_PASSWORD = # Uncomment and Enter email host password
+# EMAIL_HOST_USER = # Uncomment and Enter email address
+# EMAIL_HOST_PASSWORD = # Uncomment and Enter email host password

@@ -12,13 +12,13 @@ from django.views.generic import (
 )
 from django.views.generic.list import MultipleObjectMixin
 from rest_framework import viewsets
-from .models import Post, Comment
+from .models import Post, Comment, Review
 from .forms import CommentForm, CommentToCommentForm
 from .serializers import PostSerializer
 
 
 def home(request):
-    context = {'posts': Post.objects.all()}
+    context = {'posts': Post.objects.all(), 'reviews': Review.objects.all()}
     return render(request, 'blog/home.html', context)
 
 
@@ -106,6 +106,7 @@ def add_comment_to_post(request, pk):
         form = CommentForm()
     return render(request, 'blog/add_comment_to_post.html', {'form': form})
 
+
 @login_required
 def add_comment_to_comment(request, pk, comm, comm_sub):
     post = get_object_or_404(Post, pk=pk)
@@ -129,6 +130,7 @@ def add_comment_to_comment(request, pk, comm, comm_sub):
         form = CommentForm()
     return render(request, 'blog/add_comment_to_comment.html', {'form': form, 'user': user, 'comment_title': comment_title})
 
+
 @login_required
 def remove_comment(request, pk, comm):
     post = get_object_or_404(Post, pk=pk)
@@ -141,6 +143,29 @@ def remove_comment(request, pk, comm):
         return render(request, 'blog/comment_confirm_delete.html', {'comment': comment})
     else:
         return redirect('post-detail', pk=post.pk)
+
+
+@login_required
+def rate(request, pk, star):
+    post = get_object_or_404(Post, pk=pk)
+    if len(post.reviews.filter(author=request.user.profile.user)):
+        post_user_review = post.reviews.filter(author=request.user.profile.user)[0]
+        post.review_star = (post.review_star - post.reviews.filter(author=request.user.profile.user)[0].review_star) + star
+        post_user_review.review_star = star
+        post_user_review.save()
+        post.save()
+        messages.success(request, f'Your new rating has been successfully submitted!')
+        return redirect('post-detail', pk=pk)
+    else:
+        new_review = Review()
+        new_review.post = post
+        new_review.author = request.user.profile.user
+        new_review.review_star = star
+        post.review_star = post.review_star + star
+        new_review.save()
+        post.save()
+        messages.success(request, f'Your rating has been successfully submitted!')
+        return redirect('post-detail', pk=pk)
 
 
 def about(request):
