@@ -1,4 +1,5 @@
 {% extends 'blog/base.html' %}
+{% load custom_tags %}
 {% block content %}
 {% load mathfilters %}
 	<article class="media content-section">
@@ -40,7 +41,14 @@
 		  </form>
 			</p>
 			<p><input id="starGet" type="button" class="btn btn-outline-info" value="Rate" /></p>
-			<small class="text-muted">Note: New rating will overwrite your previous result!</small>
+			{% if user.reviews_authors.all|user_post_review_check:post.id %}
+				<small class="text-muted">You have already rated this article!
+					<br>Note: New rating will overwrite your previous result!</small>
+			{% else %}
+				{% if post.reviews.count %}
+				<small class="text-muted">You have not rated this article yet!</small>
+				{% endif %}
+			{% endif %}
 		{% else %}
 			</p>
 			<small class="text-muted">Log In to rate this article.</small>

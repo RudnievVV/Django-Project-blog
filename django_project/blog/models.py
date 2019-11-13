@@ -33,7 +33,7 @@ class Comment(models.Model):
 
 class Review(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='reviews')
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews_authors')
     review_star = models.IntegerField()
 
     def __str__(self):
