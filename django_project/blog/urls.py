@@ -1,4 +1,4 @@
-from django.urls import include, path
+from django.urls import include, path, re_path
 from rest_framework import routers
 from . import views
 from .views import (
@@ -29,4 +29,5 @@ urlpatterns = [
     path('post/<int:pk>/<int:comm>/', views.remove_comment, name='remove-comment'),
     path('post/<int:pk>/<int:star>/rate', views.rate, name='rate'),
     path('about/', views.about, name='blog-about'),
+    re_path(r'^tinymce/', include('tinymce.urls')),
 ]

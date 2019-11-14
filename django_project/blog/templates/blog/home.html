@@ -17,7 +17,7 @@
 		    {% else %}
 		    	<small class="text-muted">No rating yet!</small>
 		    {% endif %}
-		    <p class="article-content">{{ post.content }}</p>
+		    <p class="article-content">{{ post.content|safe }}</p>
 		  </div>
 		</article>
 	{% endfor %}

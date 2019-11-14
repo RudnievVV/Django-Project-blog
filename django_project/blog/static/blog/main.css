@@ -124,3 +124,7 @@ a.article-title:hover {
 .starRating:not(:hover) > :checked ~ label:before{
   opacity : 1;
 }
+
+.tox .tox-notification--in {
+  display: none!important;
+}

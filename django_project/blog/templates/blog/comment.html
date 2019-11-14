@@ -8,9 +8,9 @@
         {% endif %}
     </div>
     <br><strong>{{ comment.title }}</strong>
-    <br>{{ comment.content }}
+    <br>{{ comment.content|safe }}
     {% if user.is_authenticated %}
-    	<br><br><a class="btn btn-outline-info" href="{% url 'add-comment-to-comment' pk=post.pk comm=comment.id comm_sub=comment.id %}">Reply</a>
+    	<a class="btn btn-outline-info" href="{% url 'add-comment-to-comment' pk=post.pk comm=comment.id comm_sub=comment.id %}">Reply</a>
     {% endif %}
     {% if comment.children %}
         <hr>
