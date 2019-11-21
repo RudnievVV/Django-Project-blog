@@ -1,6 +1,6 @@
 {% extends 'blog/base.html' %}
 {% block content %}
-	{% load mathfilters %}
+{% load mathfilters %}
 	{% for post in posts %}
 		<article class="media content-section">
 			<img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
@@ -17,6 +17,8 @@
 		    {% else %}
 		    	<small class="text-muted">No rating yet!</small>
 		    {% endif %}
+			<br>
+			<small class="text-muted">Category: <strong>{{ post.category }}</strong></small>
 		    <p class="article-content">{{ post.content|safe }}</p>
 		  </div>
 		</article>

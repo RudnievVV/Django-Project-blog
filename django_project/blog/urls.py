@@ -28,6 +28,7 @@ urlpatterns = [
     path('post/<int:pk>/<int:comm>/<int:comm_sub>/', views.add_comment_to_comment, name='add-comment-to-comment'),
     path('post/<int:pk>/<int:comm>/', views.remove_comment, name='remove-comment'),
     path('post/<int:pk>/<int:star>/rate', views.rate, name='rate'),
+    path('category/<str:category>', views.category_posts),
     path('about/', views.about, name='blog-about'),
     re_path(r'^tinymce/', include('tinymce.urls')),
 ]

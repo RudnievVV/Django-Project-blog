@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -18,7 +19,7 @@ from .serializers import PostSerializer
 
 
 def home(request):
-    context = {'posts': Post.objects.all(), 'reviews': Review.objects.all()}
+    context = {'posts': Post.objects.all()}
     return render(request, 'blog/home.html', context)
 
 
@@ -53,7 +54,7 @@ class PostDetailView(DetailView, MultipleObjectMixin):
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['title', 'content']
+    fields = ['title', 'content', 'category']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -62,7 +63,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
-    fields = ['title', 'content']
+    fields = ['title', 'content', 'category']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -89,6 +90,17 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 class PostViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Post.objects.all().order_by('-date_posted')
     serializer_class = PostSerializer
+
+
+def category_posts(request, category):
+    category_posts_list = Post.objects.filter(category=category).order_by('-date_posted')
+    paginator = Paginator(category_posts_list, 5)
+    page = request.GET.get('page')
+    print(page)
+    category_posts_list_paginated = paginator.get_page(page)
+    return render(request, 'blog/category_posts.html', {'posts': category_posts_list_paginated,
+                                                        'category': category,
+                                                        'title': f'{category} Category'})
 
 
 @login_required

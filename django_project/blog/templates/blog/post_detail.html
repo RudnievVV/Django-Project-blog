@@ -20,6 +20,8 @@
 	  </div>
 	</article>
     <p>
+		<small class="text-muted">Category: <strong>{{ post.category}}</strong></small>
+		<hr>
     	{% if post.reviews.count %}
 			<small class="text-muted">Current Rating: {{ post.review_star|div:post.reviews.count|floatformat:2 }}</small>
 		{% else %}

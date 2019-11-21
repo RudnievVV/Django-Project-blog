@@ -5,12 +5,23 @@ from django.urls import reverse
 from tinymce.models import HTMLField
 
 
+category_choices = (
+    ('Undefined', 'UNDEFINED'),
+    ('Sport', 'SPORT'),
+    ('Art', 'ART'),
+    ('Music', 'MUSIC'),
+    ('Nature', 'NATURE'),
+    ('Tech', 'TECH'),
+    ('Culture', 'CULTURE'),
+    ('Programming', 'PROGRAMMING'),
+)
 class Post(models.Model):
     title = models.CharField(max_length=100)
     content = HTMLField()
     date_posted = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     review_star = models.IntegerField(default=0)
+    category = models.CharField(max_length=20, choices=category_choices, default='Undefined')
 
     def __str__(self):
         return self.title
@@ -38,4 +49,4 @@ class Review(models.Model):
     review_star = models.IntegerField()
 
     def __str__(self):
-        return f"{self.review_star} for {self.post.id} by {self.author}"
+        return f"{self.review_star} for Post ID {self.post.id} by {self.author}"
