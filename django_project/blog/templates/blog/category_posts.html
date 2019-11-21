@@ -28,7 +28,7 @@
 		  </div>
 		</article>
 	{% endfor %}
-	{% if is_paginated %}
+	{% if posts.paginator.num_pages > 1 %}
 
 		{% if posts.has_previous %}
 			<a class='btn btn-outline-info mb-4' href="?page=1">First</a>
