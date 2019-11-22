@@ -33,7 +33,8 @@
 					<a class="nav-item nav-link" href="{% url 'blog-home' %}">Home</a>
 					<div class="dropdown-categories nav-link">
 						<button class="dropbtn nav-item" disabled>Categories</button>
-						<div class="dropdown-categories-content">
+						<div id="nav_dropdown_categories" class="dropdown-categories-content">
+							<input id="categories_dropbtn_search" type="text" placeholder="Search...">
 							{% category_list %}
 						</div>
 					</div>

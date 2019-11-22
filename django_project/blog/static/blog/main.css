@@ -169,3 +169,14 @@ a.article-title:hover {
   background-color: #5f788a;
   color: #ffffff;
 }
+
+#categories_dropbtn_search {
+  box-sizing: border-box;
+  background-image: url('search_icon.png');
+  background-position: 14px 15px;
+  background-repeat: no-repeat;
+  font-size: 16px;
+  padding: 14px 20px 12px 45px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+}
