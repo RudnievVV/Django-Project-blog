@@ -96,7 +96,6 @@ def category_posts(request, category):
     category_posts_list = Post.objects.filter(category=category).order_by('-date_posted')
     paginator = Paginator(category_posts_list, 5)
     page = request.GET.get('page')
-    print(page)
     category_posts_list_paginated = paginator.get_page(page)
     return render(request, 'blog/category_posts.html', {'posts': category_posts_list_paginated,
                                                         'category': category,
