@@ -1,3 +1,4 @@
+// Reset profile image function
 jQuery('document').ready(function(){
 	jQuery("#reset-image").on("click", function(){
 		var image_reset
@@ -11,6 +12,7 @@ jQuery('document').ready(function(){
 
 });
 
+// Post rating function
 $(document).ready(function(){
     $("#starGet").click(function (){
         window.location.replace(
@@ -19,6 +21,7 @@ $(document).ready(function(){
     });
 });
 
+// Top navigation categories search function
 $(document).ready(function(){
     $("#categories_dropbtn_search").on("keyup", function(){
         var input, filter, ul, li, a, i;
@@ -35,4 +38,29 @@ $(document).ready(function(){
             };
       };
     });
+});
+
+// Post details user image popup function
+$(document).ready(function(){
+    // Get the modal
+    var modal, img, modalImg, captionText, span
+    modal = document.getElementById("user_image_popup");
+
+    // Get the image and insert it inside the modal - use its "alt" text as a caption
+    img = document.getElementById("user_image_post_details");
+    modalImg = document.getElementById("img01");
+    captionText = document.getElementById("user_image_popup_caption");
+    img.onclick = function(){
+      modal.style.display = "block";
+      modalImg.src = this.src;
+      captionText.innerHTML = this.alt;
+    };
+
+    // Get the <span> element that closes the modal
+    span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+      modal.style.display = "none";
+    };
 });
